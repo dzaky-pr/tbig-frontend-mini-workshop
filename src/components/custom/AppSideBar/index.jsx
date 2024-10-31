@@ -8,9 +8,9 @@ import {
   GalleryVerticalEnd,
 } from "lucide-react";
 
-import { NavMain } from "@/components/custom/Sidebar/nav-main";
-import { NavUser } from "@/components/custom/Sidebar/nav-user";
-import { TeamSwitcher } from "@/components/custom/Sidebar/team-switcher";
+import { NavMain } from "@/components/custom/AppSideBar/NavMain";
+import { NavUser } from "@/components/custom/AppSideBar/NavUser";
+import { TeamSwitcher } from "@/components/custom/AppSideBar/TeamSwitcher";
 import {
   Sidebar,
   SidebarContent,
@@ -18,7 +18,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/primitive/sidebar";
-import NavDashboard from "./nav-dashboard";
+import NavDashboard from "./NavDashboard";
 
 // This is sample data.
 const data = {

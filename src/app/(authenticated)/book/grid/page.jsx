@@ -3,7 +3,7 @@ import {
   AuthenticatedPageLayout,
   AuthenticatedPageLayoutHeader,
   AuthenticatedPageLayoutContent,
-} from "@/components/custom/Layout/AuthenticatedPageLayout/AuthenticatedPageLayout";
+} from "@/components/custom/Layout/AuthenticatedPageLayout";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,6 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/primitive/breadcrumb";
+import BookDataTable from "./_components/BookDataTable";
 
 const page = () => {
   return (
@@ -29,7 +30,9 @@ const page = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </AuthenticatedPageLayoutHeader>
-      <AuthenticatedPageLayoutContent>page</AuthenticatedPageLayoutContent>
+      <AuthenticatedPageLayoutContent>
+        <BookDataTable />
+      </AuthenticatedPageLayoutContent>
     </AuthenticatedPageLayout>
   );
 };
