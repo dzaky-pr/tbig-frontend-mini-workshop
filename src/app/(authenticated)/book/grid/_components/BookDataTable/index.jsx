@@ -1,34 +1,37 @@
 "use client";
-import React, { useMemo } from "react";
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+
+import React from "react";
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import DataTable from "@/components/custom/DataTable";
+import useFetcher from "@/hooks/useFetcher";
+import { getBooks } from "@/app/services/api/book/getBooks";
 import { columns } from "./column";
 
 const BookDataTable = () => {
-  const data = useMemo(
-    () => [
-      {
-        id: 1,
-        title: "Computer Programming",
-        synopsis:
-          "Buku ini cocok bagi siapa saja yang tertarik untuk memulai pemrograman, baik untuk tujuan karier maupun hobi, dan menyediakan dasar kuat untuk mempelajari bahasa dan teknologi yang lebih canggih.",
-        author: "Jojo Bizarre",
-        coverImage: "https://placehold.co/270x480",
-      },
-    ],
-    [],
-  );
-  const table = useReactTable({
-    data: data,
-    columns: columns,
-    getCoreRowModel: getCoreRowModel(),
+  const { data, isLoading, error } = useFetcher({
+    fetchFn: getBooks,
   });
 
-  return (
-    <>
-      <DataTable table={table} />
-    </>
-  );
+  const { data: tableData, message, status, success } = data;
+  const table = useReactTable({
+    data: tableData ?? [],
+    columns: columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
+  });
+
+  return <DataTable table={table} />;
 };
 
 export default BookDataTable;

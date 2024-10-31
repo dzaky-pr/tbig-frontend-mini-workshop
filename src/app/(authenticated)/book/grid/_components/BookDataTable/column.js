@@ -64,7 +64,7 @@ export const columns = [
             }
             alt="Book cover image"
             width={64}
-            height={64}
+            height={96}
           />
           <span>{row.getValue("title")}</span>
         </div>
