@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useFetcher from "@/hooks/useFetcher";
 import { Button } from "@/components/primitive/button";
 import {
   Form,
@@ -18,25 +20,31 @@ import { Input } from "@/components/primitive/input";
 import { Separator } from "@/components/primitive/separator";
 import { TypographyH4 } from "@/components/primitive/typography";
 import { Textarea } from "@/components/primitive/textarea";
-import { addBookSchema } from "./addBookSchema";
+import { getBookById } from "@/services/api/book/getBookById";
+import { editBookSchema } from "./editBookSchema";
 
-const AddBookForm = () => {
-  const form = useForm({
-    resolver: zodResolver(addBookSchema),
-    defaultValues: {
-      title: "",
-      synopsis: "",
-      author: "",
-    },
+const EditBookForm = () => {
+  const { id } = useParams();
+  const { data, error, isLoading } = useFetcher({
+    fetchFn: () => getBookById(id),
   });
+  const { data: book } = data;
 
-  const addBook = (value) => {
+  const form = useForm({
+    resolver: zodResolver(editBookSchema),
+  });
+  useEffect(() => {
+    form.reset(book);
+  }, [form, book]);
+
+  const editBook = (value) => {
     console.log("value", value);
   };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(addBook)} className="space-y-8">
-        <TypographyH4>Add New Book Form</TypographyH4>
+      <form onSubmit={form.handleSubmit(editBook)} className="space-y-8">
+        <TypographyH4>Edit Book Form</TypographyH4>
         <div className="grid grid-flow-row grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2">
           <FormField
             name="title"
@@ -118,4 +126,4 @@ const AddBookForm = () => {
   );
 };
 
-export default AddBookForm;
+export default EditBookForm;

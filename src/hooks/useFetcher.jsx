@@ -26,7 +26,7 @@ const useFetcher = ({ fetchFn }) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [fetchFn]);
 
   useEffect(() => {
     fetchData();

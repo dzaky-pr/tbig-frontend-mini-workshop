@@ -12,6 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/primitive/breadcrumb";
+import EditBookForm from "./_components/EditBookForm";
 
 const page = () => {
   return (
@@ -33,7 +34,9 @@ const page = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </AuthenticatedPageLayoutHeader>
-      <AuthenticatedPageLayoutContent>Tes</AuthenticatedPageLayoutContent>
+      <AuthenticatedPageLayoutContent>
+        <EditBookForm />
+      </AuthenticatedPageLayoutContent>
     </AuthenticatedPageLayout>
   );
 };

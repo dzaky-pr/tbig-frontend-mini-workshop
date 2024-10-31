@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const addBookSchema = z.object({
+export const editBookSchema = z.object({
   title: z
     .string({ required_error: "Title is mandatory" })
     .min(1, "Title is mandatory"),

@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-table";
 import DataTable from "@/components/custom/DataTable";
 import useFetcher from "@/hooks/useFetcher";
-import { getBooks } from "@/app/services/api/book/getBooks";
+import { getBooks } from "@/services/api/book/getBooks";
 import { columns } from "./column";
 import { Button } from "@/components/primitive/button";
 import { Plus } from "lucide-react";
