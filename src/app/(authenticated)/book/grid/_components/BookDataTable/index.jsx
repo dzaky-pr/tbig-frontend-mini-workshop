@@ -11,6 +11,9 @@ import DataTable from "@/components/custom/DataTable";
 import useFetcher from "@/hooks/useFetcher";
 import { getBooks } from "@/app/services/api/book/getBooks";
 import { columns } from "./column";
+import { Button } from "@/components/primitive/button";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 const BookDataTable = () => {
   const { data, isLoading, error } = useFetcher({
@@ -31,7 +34,16 @@ const BookDataTable = () => {
     },
   });
 
-  return <DataTable table={table} />;
+  return (
+    <div className="flex flex-col gap-y-4">
+      <Button className="ml-auto" asChild={true}>
+        <Link href="/book/add">
+          <Plus /> Add Book
+        </Link>
+      </Button>
+      <DataTable table={table} />
+    </div>
+  );
 };
 
 export default BookDataTable;

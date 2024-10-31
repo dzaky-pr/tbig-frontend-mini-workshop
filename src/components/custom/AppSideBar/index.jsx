@@ -59,10 +59,6 @@ const data = {
           title: "Add",
           url: "/book/add",
         },
-        {
-          title: "Edit",
-          url: "/book/edit",
-        },
       ],
     },
   ],
