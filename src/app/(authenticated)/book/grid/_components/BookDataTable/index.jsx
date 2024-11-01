@@ -1,26 +1,67 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
+import Link from "next/link";
 import {
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import DataTable from "@/components/custom/DataTable";
-import useFetcher from "@/hooks/useFetcher";
-import { getBooks } from "@/services/api/book/getBooks";
-import { columns } from "./column";
-import { Button } from "@/components/primitive/button";
 import { Plus } from "lucide-react";
-import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
+import { useFetcher } from "@/hooks/useFetcher";
+import { getBooks } from "@/services/api/book/getBooks";
+import { deleteBookById } from "@/services/api/book/deleteBookById";
+import { Button } from "@/components/primitive/button";
+import { DataTable } from "@/components/custom/DataTable";
+import { columns } from "./column";
 
 const BookDataTable = () => {
-  const { data, isLoading, error } = useFetcher({
-    fetchFn: getBooks,
-  });
+  const { toast } = useToast();
+  // const { data, isLoading, error, fetchFn } = useFetcher({
+  //   fetchFn: getBooks,
+  // });
 
-  const { data: tableData, message, status, success } = data;
+  // const { data: tableData, message, status, success } = data;
+
+  const deleteBook = async (id, title) => {
+    try {
+      const response = await deleteBookById(id);
+      if (response.success == true) {
+        toast({
+          title: "Deleted",
+          description: "Success delete book with title " + title,
+        });
+        // fetchFn();
+        return;
+      }
+      toast({
+        title: "Failed",
+        variant: "destructive",
+        description: "Failed delete book with title " + title,
+      });
+    } catch (err) {
+      toast({
+        title: "Failed",
+        variant: "destructive",
+        description: err.message,
+      });
+    }
+  };
+
+  const tableData = useMemo(() => {
+    return [
+      {
+        id: 1,
+        title: "Jojo Bizarre",
+        synopsis: "Sinopsis jojo",
+        author: "Kevin",
+        coverImage: "",
+      },
+    ];
+  }, []);
+
   const table = useReactTable({
     data: tableData ?? [],
     columns: columns,
@@ -30,6 +71,11 @@ const BookDataTable = () => {
     initialState: {
       pagination: {
         pageSize: 5,
+      },
+    },
+    meta: {
+      fn: {
+        deleteBook,
       },
     },
   });

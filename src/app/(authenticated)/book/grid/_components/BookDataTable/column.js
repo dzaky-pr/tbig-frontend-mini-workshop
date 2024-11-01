@@ -1,8 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/primitive/button";
 import { Checkbox } from "@/components/primitive/checkbox";
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/primitive/alert-dialog";
 
 /**
  * @type {import("@tanstack/react-table").ColumnDef<any>[]}
@@ -95,7 +106,8 @@ export const columns = [
     },
     cell: ({ row }) => {
       const synopsis = row.getValue("synopsis");
-      const short = synopsis.slice(0, 100) + "....";
+      const short =
+        synopsis.length > 100 ? synopsis.slice(0, 100) + "...." : synopsis;
       return <p className="text-wrap">{short}</p>;
     },
   },
@@ -124,13 +136,42 @@ export const columns = [
   {
     id: "actions",
     header: () => "Actions",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       return (
-        <div className="space-x-2">
+        <div className="flex flex-row flex-wrap gap-2">
           <Link href={`/book/edit/${row.original?.id}`}>
             <Button variant="secondary">Edit</Button>
           </Link>
-          <Button variant="destructive">Delete</Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild={true}>
+              <Button variant="destructive">Delete</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently{" "}
+                  <span className="font-semibold uppercase text-destructive">
+                    delete {row.getValue("title")}
+                  </span>{" "}
+                  book.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() =>
+                    table.options.meta?.fn.deleteBook(
+                      row.original?.id,
+                      row.original?.title,
+                    )
+                  }
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       );
     },

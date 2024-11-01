@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useFetcher from "@/hooks/useFetcher";
+import { useFetcher } from "@/hooks/useFetcher";
 import { Button } from "@/components/primitive/button";
 import {
   Form,

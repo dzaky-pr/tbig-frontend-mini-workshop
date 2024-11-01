@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import { ToastProvider } from "@/components/primitive/toast";
+
 import { Toaster } from "@/components/primitive/toaster";
 
 const geistSans = localFont({

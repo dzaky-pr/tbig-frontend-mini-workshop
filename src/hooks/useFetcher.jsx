@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-const useFetcher = ({ fetchFn }) => {
+export const useFetcher = ({ fetchFn }) => {
   const [data, setData] = useState({
     data: [],
     message: null,
@@ -21,6 +21,7 @@ const useFetcher = ({ fetchFn }) => {
       setIsLoading(true);
       const response = await fetchFn();
       setData(response);
+      setError(null);
     } catch (err) {
       setError(err);
     } finally {
@@ -32,7 +33,5 @@ const useFetcher = ({ fetchFn }) => {
     fetchData();
   }, [fetchData]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, fetchFn: fetchData };
 };
-
-export default useFetcher;

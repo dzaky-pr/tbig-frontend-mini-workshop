@@ -29,9 +29,11 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/primitive/sidebar";
+import { useRouter } from "next/navigation";
 
 export function NavUser({ user }) {
   const { isMobile } = useSidebar();
+  const router = useRouter();
 
   return (
     <SidebarMenu>
@@ -94,7 +96,10 @@ export function NavUser({ user }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="focus:bg-destructive focus:text-destructive-foreground">
+            <DropdownMenuItem
+              onClick={() => router.push("/")}
+              className="focus:bg-destructive focus:text-destructive-foreground"
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>

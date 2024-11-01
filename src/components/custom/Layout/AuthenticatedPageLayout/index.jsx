@@ -22,7 +22,7 @@ const AuthenticatedPageLayoutHeader = ({ children, className, ...props }) => (
 );
 
 const AuthenticatedPageLayoutContent = ({ children, className, ...props }) => (
-  <main className={cn("px-8 py-4", className)} {...props}>
+  <main className={cn("max-w-[100vw] px-8 py-4", className)} {...props}>
     {children}
   </main>
 );
