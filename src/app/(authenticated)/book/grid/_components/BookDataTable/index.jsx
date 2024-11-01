@@ -19,7 +19,7 @@ import { columns } from "./column";
 
 const BookDataTable = () => {
   const { toast } = useToast();
-  // const { data, isLoading, error, fetchFn } = useFetcher({
+  // const { data, isLoading, error, refetch } = useFetcher({
   //   fetchFn: getBooks,
   // });
 
@@ -33,7 +33,7 @@ const BookDataTable = () => {
           title: "Deleted",
           description: "Success delete book with title " + title,
         });
-        // fetchFn();
+        // refetch();
         return;
       }
       toast({

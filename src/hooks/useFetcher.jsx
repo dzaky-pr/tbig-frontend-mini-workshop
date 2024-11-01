@@ -33,5 +33,5 @@ export const useFetcher = ({ fetchFn }) => {
     fetchData();
   }, [fetchData]);
 
-  return { data, isLoading, error, fetchFn: fetchData };
+  return { data, isLoading, error, refetch: fetchData };
 };
