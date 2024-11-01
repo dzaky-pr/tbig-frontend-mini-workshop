@@ -1,6 +1,11 @@
 "use client";
 
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/primitive/button";
+import { Input } from "@/components/primitive/input";
 import {
   Form,
   FormControl,
@@ -9,25 +14,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/primitive/form";
-import { Input } from "@/components/primitive/input";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema } from "./signUpSchema";
-import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/primitive/card";
+import { signUpSchema } from "./signUpSchema";
 
 const SignUpForm = () => {
-  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm({ resolver: zodResolver(signUpSchema) });
+
   const handleOnFormSubmit = (value) => {
     console.log("value", value);
-    router.push("/");
+    toast({
+      title: "Success Sign Up",
+    });
   };
 
   return (

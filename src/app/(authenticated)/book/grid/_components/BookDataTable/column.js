@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/primitive/button";
@@ -20,7 +19,7 @@ import {
  */
 export const columns = [
   {
-    id: "select",
+    accessorKey: "select",
     size: 10,
     header: ({ table }) => (
       <div className="grid h-full place-items-center">
@@ -64,21 +63,6 @@ export const columns = [
             <ArrowUpDown className="ml-2 h-4 w-4" />
           )}
         </Button>
-      );
-    },
-    cell: ({ row }) => {
-      return (
-        <div className="flex w-52 flex-row items-center gap-4 text-wrap text-base font-semibold">
-          <Image
-            src={
-              "https://i.pinimg.com/originals/a1/f8/87/a1f88733921c820db477d054fe96afbb.jpg"
-            }
-            alt="Book cover image"
-            width={64}
-            height={96}
-          />
-          <span>{row.getValue("title")}</span>
-        </div>
       );
     },
   },

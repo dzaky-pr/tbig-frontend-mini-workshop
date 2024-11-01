@@ -9,3 +9,16 @@ export const fetcher = axios.create({
   //   "Access-Control-Allow-Credentials": true,
   // },
 });
+
+// client redirect
+fetcher.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      if (window.location.pathname != "/") window.location.href = "/";
+    }
+    return Promise.reject(error);
+  },
+);
