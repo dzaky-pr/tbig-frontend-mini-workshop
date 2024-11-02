@@ -19,8 +19,13 @@ import { Separator } from "@/components/primitive/separator";
 import { TypographyH4 } from "@/components/primitive/typography";
 import { Textarea } from "@/components/primitive/textarea";
 import { addBookSchema } from "./addBookSchema";
+import { addBook } from "@/services/api/book/addBook";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const AddBookForm = () => {
+  const { toast } = useToast();
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(addBookSchema),
     defaultValues: {
@@ -30,12 +35,22 @@ const AddBookForm = () => {
     },
   });
 
-  const addBook = (value) => {
-    console.log("value", value);
+  const handleAddBook = async (value) => {
+    try {
+      await addBook(value);
+      router.push("/book/grid");
+      toast({
+        title: "Success add book",
+      });
+    } catch (err) {
+      toast({
+        title: "Failed add book",
+      });
+    }
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(addBook)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(handleAddBook)} className="space-y-8">
         <TypographyH4>Add New Book Form</TypographyH4>
         <div className="grid grid-flow-row grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2">
           <FormField
@@ -68,7 +83,7 @@ const AddBookForm = () => {
             )}
           />
           <FormField
-            name="synopsis"
+            name="sysnopsis"
             control={form.control}
             render={({ field }) => (
               <FormItem>

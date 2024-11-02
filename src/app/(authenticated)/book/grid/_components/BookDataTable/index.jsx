@@ -19,28 +19,20 @@ import { columns } from "./column";
 
 const BookDataTable = () => {
   const { toast } = useToast();
-  // const { data, isLoading, error, refetch } = useFetcher({
-  //   fetchFn: getBooks,
-  // });
-
-  // const { data: tableData, message, status, success } = data;
+  const { data, isLoading, error, refetch } = useFetcher({
+    fetchFn: getBooks,
+  });
+  const { books: tableData, message, status, success } = data;
+  const dtBook = useMemo(() => tableData ?? [], [tableData]);
 
   const deleteBook = async (id, title) => {
     try {
-      const response = await deleteBookById(id);
-      if (response.success == true) {
-        toast({
-          title: "Deleted",
-          description: "Success delete book with title " + title,
-        });
-        // refetch();
-        return;
-      }
+      await deleteBookById(id);
       toast({
-        title: "Failed",
-        variant: "destructive",
-        description: "Failed delete book with title " + title,
+        title: "Deleted",
+        description: "Success delete book with title " + title,
       });
+      refetch();
     } catch (err) {
       toast({
         title: "Failed",
@@ -50,20 +42,8 @@ const BookDataTable = () => {
     }
   };
 
-  const tableData = useMemo(() => {
-    return [
-      {
-        id: 1,
-        title: "Jojo Bizarre",
-        synopsis: "Sinopsis jojo",
-        author: "Kevin",
-        coverImage: "",
-      },
-    ];
-  }, []);
-
   const table = useReactTable({
-    data: tableData ?? [],
+    data: dtBook,
     columns: columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

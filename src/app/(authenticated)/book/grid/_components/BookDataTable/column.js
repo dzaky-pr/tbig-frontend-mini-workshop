@@ -67,7 +67,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "synopsis",
+    accessorKey: "sysnopsis",
     size: 300,
     header: ({ column }) => {
       return (
@@ -89,7 +89,7 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const synopsis = row.getValue("synopsis");
+      const synopsis = row.getValue("sysnopsis");
       const short =
         synopsis.length > 100 ? synopsis.slice(0, 100) + "...." : synopsis;
       return <p className="text-wrap">{short}</p>;

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,28 +22,57 @@ import { TypographyH4 } from "@/components/primitive/typography";
 import { Textarea } from "@/components/primitive/textarea";
 import { getBookById } from "@/services/api/book/getBookById";
 import { editBookSchema } from "./editBookSchema";
+import { editBook } from "@/services/api/book/editBook";
+import { useToast } from "@/hooks/use-toast";
 
 const EditBookForm = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const { id } = useParams();
+
+  const fetchFn = useCallback(() => {
+    return getBookById(id);
+  }, [id]);
+
   const { data, error, isLoading } = useFetcher({
-    fetchFn: () => getBookById(id),
+    fetchFn: fetchFn,
   });
-  const { data: book } = data;
+  const { book } = data;
 
   const form = useForm({
     resolver: zodResolver(editBookSchema),
   });
+
   useEffect(() => {
     form.reset(book);
-  }, [form, book]);
+  }, [book, form]);
 
-  const editBook = (value) => {
-    console.log("value", value);
+  const handleSubmitEditBookForm = async (value) => {
+    const editBookParams = {
+      id: id,
+      title: value.title,
+      sysnopsis: value.sysnopsis,
+      author: value.author,
+    };
+    try {
+      await editBook(editBookParams);
+      router.push("/book/grid");
+      toast({
+        title: "Success edit book",
+      });
+    } catch (err) {
+      toast({
+        title: "Failed edit book",
+      });
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(editBook)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(handleSubmitEditBookForm)}
+        className="space-y-8"
+      >
         <TypographyH4>Edit Book Form</TypographyH4>
         <div className="grid grid-flow-row grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2">
           <FormField
@@ -76,7 +105,7 @@ const EditBookForm = () => {
             )}
           />
           <FormField
-            name="synopsis"
+            name="sysnopsis"
             control={form.control}
             render={({ field }) => (
               <FormItem>
