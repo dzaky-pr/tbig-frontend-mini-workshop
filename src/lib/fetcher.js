@@ -3,7 +3,7 @@ import axios from "axios";
 const getToken = () => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("Authorization");
-    const jwt = token.substring(7);
+    const jwt = token?.substring(7);
     const bearerToken = `Bearer ${jwt}`;
     return bearerToken;
   }
