@@ -22,17 +22,34 @@ import {
   CardTitle,
 } from "@/components/primitive/card";
 import { signInSchema } from "./signInSchema";
+import { signIn } from "@/services/api/auth/signIn";
 
 const SignInForm = () => {
   const router = useRouter();
   const { toast } = useToast();
   const form = useForm({ resolver: zodResolver(signInSchema) });
-  const handleOnFormSubmit = (value) => {
-    console.log("value", value);
-    router.push("/dashboard");
-    toast({
-      title: "Success Sign In",
-    });
+
+  const handleOnFormSubmit = async (value) => {
+    try {
+      const { email, password } = value;
+      const response = await signIn(email, password);
+      if (response?.isSuccess) {
+        router.push("/dashboard");
+        toast({
+          title: "Success Sign In",
+        });
+      } else {
+        toast({
+          title: "Failed Sign In",
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error)
+        toast({
+          title: "Failed Sign In",
+          description: error.message,
+        });
+    }
   };
 
   return (

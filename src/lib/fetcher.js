@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export const fetcher = axios.create({
-  baseURL: "https://demo3246671.mockable.io/api",
+  baseURL: "http://localhost:5059",
   timeout: 4000,
-  // withCredentials: true,
+  withCredentials: true,
   // headers: {
   //   "Access-Control-Allow-Origin": "localhost",
   //   "Access-Control-Allow-Credentials": true,
