@@ -20,18 +20,32 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/primitive/card";
+import { signUp } from "@/services/api/auth/signUp";
 import { signUpSchema } from "./signUpSchema";
 
 const SignUpForm = () => {
   const { toast } = useToast();
-
   const form = useForm({ resolver: zodResolver(signUpSchema) });
 
-  const handleOnFormSubmit = (value) => {
-    console.log("value", value);
-    toast({
-      title: "Success Sign Up",
-    });
+  const handleOnFormSubmit = async (value) => {
+    try {
+      const { username, email, password } = value;
+      const response = await signUp(username, email, password);
+      if (response.isSuccess) {
+        window.location.reload();
+        toast({
+          title: "Success Sign Up",
+        });
+      } else {
+        toast({
+          title: "Failed Sign Up",
+        });
+      }
+    } catch (err) {
+      toast({
+        title: "Failed Sign Up",
+      });
+    }
   };
 
   return (

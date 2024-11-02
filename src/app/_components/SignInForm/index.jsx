@@ -33,7 +33,7 @@ const SignInForm = () => {
     try {
       const { email, password } = value;
       const response = await signIn(email, password);
-      if (response?.isSuccess) {
+      if (response?.token) {
         router.push("/dashboard");
         toast({
           title: "Success Sign In",

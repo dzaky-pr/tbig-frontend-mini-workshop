@@ -1,14 +1,15 @@
 import { fetcher } from "@/lib/fetcher";
 import { AxiosError } from "axios";
 
-export const signIn = async (email, password) => {
+export const signUp = async (username, email, password) => {
   const params = {
-    email: email,
-    password: password,
+    username,
+    email,
+    password,
   };
 
   try {
-    const response = await fetcher.post("/auth/login", params);
+    const response = await fetcher.post("/auth/register", params);
     return response.data;
   } catch (err) {
     if (err instanceof AxiosError) {
